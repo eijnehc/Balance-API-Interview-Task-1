@@ -23,16 +23,19 @@ async function tickerQuery(ticker) {
   return res.json().catch((err) => console.error(err));
 }
 
-async function calculateTotalValue(userBalance) {
+export async function calculateTotalValue(
+  userBalance,
+  BTCLastPrice,
+  ETHLastPrice
+) {
   let totalAssetValue = 0;
-  const BTCPrice = await tickerQuery('BTCUSD');
-  const ETHPrice = await tickerQuery('ETHUSD');
 
   for (const key in userBalance) {
     if (key === 'BTC') {
-      totalAssetValue += userBalance[key] * BTCPrice.last;
+      totalAssetValue += userBalance[key] * BTCLastPrice;
+    } else {
+      totalAssetValue += userBalance[key] * ETHLastPrice;
     }
-    totalAssetValue += userBalance[key] * ETHPrice.last;
   }
 
   return totalAssetValue;
@@ -41,13 +44,19 @@ async function calculateTotalValue(userBalance) {
 app.get('/api/v1/users/:id', async (req, res) => {
   const key = `user-${req.params.id}`;
   const userBalance = userBalances[key];
+  const BTCPrice = await tickerQuery('BTCUSD');
+  const ETHPrice = await tickerQuery('ETHUSD');
 
   if (!userBalances[key]) {
     res.status(404).send(`The user with the ID ${req.params.id} was not found`);
   }
 
   try {
-    const totalAssetValue = await calculateTotalValue(userBalance);
+    const totalAssetValue = await calculateTotalValue(
+      userBalance,
+      BTCPrice.last,
+      ETHPrice.last
+    );
     res.send(
       `The total asset value for ${key} is $${totalAssetValue.toFixed(2)} USD`
     );
