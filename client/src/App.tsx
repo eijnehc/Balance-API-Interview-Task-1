@@ -7,7 +7,11 @@ export const App: FC = () => {
   const { data, isLoading, error } = useUsersBalanceQuery();
 
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <SpinnerWrapper>
+        <Spinner />
+      </SpinnerWrapper>
+    );
   }
 
   if (error) {
@@ -90,13 +94,25 @@ const Table = styled.table`
   }
 `;
 
+const SpinnerWrapper = styled.div`
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  margin: auto;
+`;
+
 const Spinner = styled.div`
   display: inline-block;
   width: 50px;
   height: 50px;
   border: 3px solid grey;
   border-radius: 50%;
-  border-top-color:black;
+  border-top-color:hsl(208, 96%, 57%);
   animation: spin 1s ease-in-out infinite;
   -webkit-animation: spin 1s ease-in-out infinite;
 }
