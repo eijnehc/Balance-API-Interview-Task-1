@@ -7,7 +7,7 @@
     "client-install": "cd client && npm install",
     "start": " node server.js",
     "server": "nodemon --exec babel-node server.js",
-    "client": "cd client && npm start --prefix client",
+    "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "mocha"
   },
