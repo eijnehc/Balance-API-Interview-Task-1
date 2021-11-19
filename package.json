@@ -2,17 +2,27 @@
   "name": "Balance-API-Interview-Task",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": " node server.js",
+    "server": "nodemon --exec babel-node server.js",
     "test": "mocha"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Chen Jie",
+  "license": "MIT",
   "dependencies": {
     "chai": "^4.3.4",
+    "concurrently": "^6.4.0",
     "express": "^4.17.1",
     "mocha": "^8.3.2"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "nodemon": "^2.0.15"
+  },
+  "proxy": "https://localhost:5000"
 }
