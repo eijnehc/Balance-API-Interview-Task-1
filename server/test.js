@@ -1,6 +1,6 @@
 import chai from 'chai';
 
-import { calculateTotalValue } from './server.js';
+import { calculateTotalValue } from './src/server.js';
 
 const { assert } = chai;
 const userBalance = { BTC: '0.5', ETH: '2' };
