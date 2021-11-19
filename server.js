@@ -20,7 +20,7 @@ const userBalances = {
 async function tickerQuery(ticker) {
   const res = await fetch(`https://www.bitstamp.net/api/v2/ticker/${ticker}`);
 
-  return res.json();
+  return res.json().catch((err) => console.error(err));
 }
 
 async function calculateTotalValue(userBalance) {
