@@ -1,10 +1,31 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import styled from 'styled-components';
 
-import { useUsersBalanceQuery } from './apis';
+import {
+  useUsersBalanceQuery,
+  userTotalAssetsQuery,
+  usersBalanceQuery,
+} from './apis';
 
 export const App: FC = () => {
   const { data, isLoading, error } = useUsersBalanceQuery();
+  const [currentUser, setCurrentUser] = useState('');
+  const [userBalance, setUserBalance] = useState('');
+
+  const fetchUserTotalBalance = async (user: string) => {
+    if (currentUser === user) {
+      return usersBalanceQuery;
+    }
+    setCurrentUser(user);
+    const key = user.split('-')[1];
+
+    try {
+      const res = await userTotalAssetsQuery(Number(key));
+      setUserBalance(res);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -18,9 +39,12 @@ export const App: FC = () => {
     return <div>{error.message}</div>;
   }
 
-  const renderedResults = data?.map((userBalance, idx) => {
+  const renderedResults = data?.map((userBalance) => {
     return (
-      <tr key={`userBalance.user-${idx}`}>
+      <tr
+        key={userBalance.user}
+        onClick={() => fetchUserTotalBalance(userBalance.user)}
+      >
         <td>{userBalance.user}</td>
         <td>{userBalance.BTC ? `${userBalance.BTC} BTC` : <>&mdash;</>}</td>
         <td>{userBalance.ETH ? `${userBalance.ETH} ETH` : <>&mdash;</>}</td>
@@ -41,6 +65,7 @@ export const App: FC = () => {
           </thead>
           <tbody>{renderedResults}</tbody>
         </Table>
+        {userBalance && <UserBalanceWrapper>{userBalance}</UserBalanceWrapper>}
       </Wrapper>
     </Container>
   );
@@ -48,12 +73,6 @@ export const App: FC = () => {
 
 const Container = styled.div`
   display: relative;
-
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
 `;
 
 const Wrapper = styled.div`
@@ -72,26 +91,36 @@ const Table = styled.table`
   background-color: white;
   width: 100%;
   text-align: center;
-  color: hsl(208, 96%, 57%);
+  color: var(--primary-color-700);
   margin-bottom: 50px;
 
   thead > tr {
     height: 40px;
     font-size: 24px;
-    color: hsl(208, 96%, 57%);
-    background-color: hsl(212, 40%, 20%);
-    cursor: pointer;
+    color: var(--primary-color-700);
+    background-color: var(--primary-color-900);
   }
 
   tbody tr {
     height: 60px;
     font-size: 20px;
     padding: 16px 24px;
-    border-bottom: 3px solid hsl(200, 100%, 64%);
+    border-bottom: 3px solid var(--primary-color-500);
+    cursor: pointer;
+
     :hover {
-      background-color: lightblue;
+      background-color: var(--primary-color-300);
     }
   }
+`;
+
+const UserBalanceWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+
+  //Note: Inspired by Josh Comeau Shadow Palette generator
+  box-shadow: var(--shadow-elevation-medium);
 `;
 
 const SpinnerWrapper = styled.div`

@@ -24,3 +24,9 @@ export async function usersBalanceQuery(): Promise<UsersBalance[]> {
 
   return res.json().then(formatUsersBalance);
 }
+
+export async function userTotalAssetsQuery(user: number): Promise<string> {
+  const res = await fetch(`/api/v1/users/${user}`);
+
+  return res.text();
+}
