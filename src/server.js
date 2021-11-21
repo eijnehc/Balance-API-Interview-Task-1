@@ -47,29 +47,32 @@ export async function calculateTotalValue(
 app.get('/api/v1/users/:id', async (req, res) => {
   const key = `user-${req.params.id}`;
   const userBalance = userBalances[key];
-  const BTCPrice = await tickerQuery('BTCUSD');
-  const ETHPrice = await tickerQuery('ETHUSD');
 
   if (!userBalances[key]) {
     res.status(404).send(`The user with the ID ${req.params.id} was not found`);
   }
 
   try {
+    const BTCPrice = await tickerQuery('BTCUSD');
+    const ETHPrice = await tickerQuery('ETHUSD');
     const totalAssetValue = await calculateTotalValue(
       userBalance,
       BTCPrice.last,
       ETHPrice.last
     );
-    res.send(
-      `The total asset value for ${key} is $${totalAssetValue.toFixed(2)} USD`
-    );
+    res
+      .status(200)
+      .json(
+        `The total asset value for ${key} is $${totalAssetValue.toFixed(2)} USD`
+      );
   } catch (err) {
     console.error(err);
+    res.status(500).send(`Failed to fetch ${key} total asset value`);
   }
 });
 
 app.get('/api/v1/users', (req, res) => {
-  res.json(userBalances);
+  res.status(200).json(userBalances);
 });
 
 app.listen(port, () => {
