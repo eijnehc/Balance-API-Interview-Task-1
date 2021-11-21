@@ -74,16 +74,18 @@ const userBalances = {
 
 **1. (Optional) If you didn’t have time to complete your intended design, what else would you have done?**
 
-> ANSWER
+> If there were more time, I would like to include end to end testing to test whether the endpoints are working as intended.
 
 **2. Which took the most time? What did you find most difficult?**
 
-> I am not familiar with node.js and express as I have never use it before. Had to watch youtube video to be familiarise myself with it. The most difficult part would be creating the asynchronous functions.
+> I am not familiar with node.js and the testing framework as I have never use it before. Had to watch youtube video to be familiarise myself with it. Also, I am currently a frontend engineer, so I place quite a lot of emphasis of good UI/UX - handle error gracefully on the frontend and creating table with effects.
+
+> The most difficult part would be creating the BE server because. It took a while to get use to the event driven nature and loop architecture of NodeJs.
 
 **3. If we wanted the balance to update on the frontend more often (10 times per second), how would you improve the current system to handle this?**
 
-> There are 2 options I can go for. First option is to use websocket so that the sending and receiving of data on connection is fast. However, it may be vulnerable the server does not authenticate the client during the handshake process. The second option is to use React-Query. We can set the refetchInterval to 100 milliseconds so that the queries are continuously refetch at this frequency.
+> There are 2 options I can go for. First option is to use websocket so that the sending and receiving of data on connection is fast. However, it may be vulnerable the server does not authenticate the client during the handshake process. The second option is to use React-Query on the client side. We can set the refetchInterval to 100 milliseconds so that the queries are continuously refetch at this frequency.
 
 **4. How did you find the test overall? If you have any suggestions on how we can improve the test, we'd love to hear them!**
 
-> I find the test of medium difficulty. Perhaps can include a frontend component too.
+> I find the test of medium difficulty as I have never touch nodejs before and unit testing at my workplace. I try to make up by creating a frontend framework with a nice UI and UX. Perhaps can include a frontend component as frontend can be quite versatile and it will showcase the creativity of the candidate.
