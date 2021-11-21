@@ -62,7 +62,7 @@ app.get('/api/v1/users/:id', async (req, res) => {
     );
     res
       .status(200)
-      .json(
+      .send(
         `The total asset value for ${key} is $${totalAssetValue.toFixed(2)} USD`
       );
   } catch (err) {
